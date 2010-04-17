@@ -17,6 +17,7 @@ tokens
 	SEQUENCE_BODY;
 	TYPES;
 	TYPEREF;
+	PRIMITIVE_TYPE;
 	FIELD;
 	
 	QNAME;
@@ -113,13 +114,13 @@ seqOrRoleDeclaration
 	
 seqDeclaration
 	:	'seq'  IDENTIFIER ('is' roleRefList)? seqBody	
-	-> ^(SEQUENCE IDENTIFIER ^(ROLE_REFS seqBody?) ^(SEQUENCE_BODY roleRefList?) ) 
+	-> ^(SEQUENCE IDENTIFIER ^(SEQUENCE_BODY seqBody?) ^(ROLE_REFS roleRefList?) ) 
 	;
 	
 seqBody
 	:	
 	'{'!
-	(seqBodyDeclaration(',' seqBodyDeclaration)*)?
+	(seqBodyDeclaration(','! seqBodyDeclaration)*)?
 	'}'! ';'!
 	;
 
@@ -159,7 +160,7 @@ primitiveType
 	|	'Char'
 	|	primitiveIntegerNumberType
 	|	'Float'
-	|	'Double'
+	|	'Double' -> ^(PRIMITIVE_TYPE ) 
 	;
 	
 primitiveIntegerNumberType

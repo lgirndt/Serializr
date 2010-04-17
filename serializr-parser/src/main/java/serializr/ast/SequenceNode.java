@@ -18,7 +18,11 @@
  */
 package serializr.ast;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import org.antlr.runtime.Token;
+import org.antlr.runtime.tree.Tree;
+import serializr.typesystem.Field;
 import serializr.typesystem.Sequence;
 
 /*
@@ -33,5 +37,21 @@ public class SequenceNode extends DefaultNode implements Sequence {
     @Override
     public String getName() {
         return getChild(0).getText();
+    }
+
+    @Override
+    public Iterable<? extends Field> getFields() {
+        Tree seqBody = getChild(1);
+        return Iterables.transform(new TreeChildrenIterable(seqBody), toFieldCast());
+    }
+
+    private Function<Tree, Field> toFieldCast() {
+        return new Function<Tree, Field>() {
+
+            @Override
+            public FieldNode apply(Tree tree) {
+                return (FieldNode) tree;
+            }
+        };
     }
 }

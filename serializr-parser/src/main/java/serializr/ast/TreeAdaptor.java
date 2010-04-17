@@ -49,6 +49,8 @@ public class TreeAdaptor extends BaseTreeAdaptor {
                 return new SequenceNode(payload);
             case SerializrParser.FIELD:
                 return new FieldNode(payload);
+            case SerializrParser.TYPEREF:
+                return new TypeRefNode(payload);
             default:
                 return new DefaultNode(payload);
         }

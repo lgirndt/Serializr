@@ -17,4 +17,5 @@ public class TypeRefNode extends DefaultNode implements TypeRef {
     public Type getSerializrType() {
         return null;
     }
+
 }
