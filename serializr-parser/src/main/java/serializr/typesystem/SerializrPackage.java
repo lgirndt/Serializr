@@ -18,6 +18,9 @@
  */
 package serializr.typesystem;
 
+import com.google.common.base.Joiner;
+
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -26,6 +29,10 @@ import java.util.List;
 public final class SerializrPackage {
 
     private final List<String> packageNames;
+
+    public SerializrPackage(String... packageNames) {
+        this(Arrays.asList(packageNames));
+    }
 
     public SerializrPackage(List<String> packageNames) {
         this.packageNames = packageNames;
@@ -51,5 +58,10 @@ public final class SerializrPackage {
     @Override
     public int hashCode() {
         return packageNames != null ? packageNames.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return Joiner.on(".").join(packageNames);
     }
 }

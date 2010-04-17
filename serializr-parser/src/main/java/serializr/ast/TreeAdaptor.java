@@ -45,6 +45,8 @@ public class TreeAdaptor extends BaseTreeAdaptor {
         }
 
         switch (payload.getType()) {
+            case SerializrParser.UNIT:
+                return new TranslationUnitNode(payload);
             case SerializrParser.SEQUENCE:
                 return new SequenceNode(payload);
             case SerializrParser.FIELD:
