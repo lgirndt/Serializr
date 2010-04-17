@@ -57,6 +57,7 @@ public class GrammarTest {
         );
     }
 
+    @Test
     public void testSeqWithComplexField() throws Exception {
         assertValidSeq(
                 "seq SeqName { aField : ComplexType };"
@@ -81,13 +82,6 @@ public class GrammarTest {
     @Test
     public void testRoleDeclaration() throws Exception {
         assertValidRole("role Role1;");
-    }
-
-    @Test
-    public void testInvalidRoleDeclaration() throws Exception {
-        SerializrParser parser = GrammarUtil.toParser("role Role<Foo>;");
-        parser.roleDeclaration();
-        GrammarAssert.assertInvalidParsing(parser);
     }
 
     @Test
