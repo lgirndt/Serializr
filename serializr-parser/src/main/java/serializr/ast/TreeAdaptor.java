@@ -20,6 +20,7 @@ package serializr.ast;
 
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.BaseTreeAdaptor;
+import serializr.grammar.SerializrParser;
 
 /*
 *
@@ -38,7 +39,14 @@ public class TreeAdaptor extends BaseTreeAdaptor {
     }
 
     public Object create(Token payload) {
+
+        if (payload == null) {
+            return new DefaultNode();
+        }
+
         switch (payload.getType()) {
+            case SerializrParser.SEQUENCE:
+                return new SequenceNode(payload);
             default:
                 return new DefaultNode(payload);
         }
@@ -53,6 +61,9 @@ public class TreeAdaptor extends BaseTreeAdaptor {
     }
 
     public void setTokenBoundaries(Object t, Token startToken, Token stopToken) {
+        if (t == null) {
+            return;
+        }
         Node node = (Node) t;
         node.setTokenStartIndex(startToken.getTokenIndex());
         node.setTokenStopIndex(stopToken.getTokenIndex());

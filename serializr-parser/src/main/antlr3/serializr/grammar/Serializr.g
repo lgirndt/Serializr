@@ -11,12 +11,12 @@ tokens
 {
 	UNIT;
 	PACKAGE;
-	IMPORTS;
-	IMPORT;
+	
 	SEQUENCE;
+	ROLE_REFS;
+	SEQUENCE_BODY;
 	TYPES;
-	PROPERTIES;
-	PROPERTY;
+	
 	QNAME;
 }
 
@@ -110,8 +110,8 @@ seqOrRoleDeclaration
 	;	
 	
 seqDeclaration
-	:	'seq' IDENTIFIER ('is' roleRefList)? seqBody	
-	-> ^(SEQUENCE roleRefList seqBody) 
+	:	'seq'  IDENTIFIER ('is' roleRefList)? seqBody	
+	-> ^(SEQUENCE IDENTIFIER ^(ROLE_REFS seqBody?) ^(SEQUENCE_BODY roleRefList?) ) 
 	;
 	
 seqBody
@@ -142,7 +142,7 @@ roleRefList
 	;	
 	
 roleRef
-	:	type '<'! NUMBER '>'!
+	:	IDENTIFIER '<' NUMBER '>'
 	;
 		
 typeOrCollectionType
@@ -201,10 +201,12 @@ fragment
 IdentifierPart
 	:	'a'..'z'
     	|	'A'..'Z'	
-    	|	'0'..'1'
+    	|	'0'..'9'
     	|	'_'
 	;
 NUMBER
 	:	'0'..'9';
 			
-	
+/* everything hidden */
+WS  :  (' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;}	
+    ;

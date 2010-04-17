@@ -18,7 +18,10 @@
  */
 package serializr.parser;
 
-import org.antlr.runtime.*;
+import org.antlr.runtime.ANTLRFileStream;
+import org.antlr.runtime.ANTLRStringStream;
+import org.antlr.runtime.CharStream;
+import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import serializr.grammar.SerializrLexer;
 import serializr.grammar.SerializrParser;
@@ -31,7 +34,7 @@ import java.io.IOException;
 */
 public class ParserFactory {
 
-    public Parser createParser(File file) throws IOException {
+    public SerializrParser createParser(File file) throws IOException {
 
         CharStream input = new ANTLRFileStream(file.getAbsolutePath());
         SerializrParser parser = createParser(input);
@@ -39,7 +42,7 @@ public class ParserFactory {
         return parser;
     }
 
-    public Parser createParser(String data) throws IOException {
+    public SerializrParser createParser(String data) throws IOException {
         CharStream input = new ANTLRStringStream(data);
         return createParser(input);
     }
