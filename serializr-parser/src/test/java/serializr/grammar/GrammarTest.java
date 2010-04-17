@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /*
 *
@@ -79,9 +80,43 @@ public class GrammarTest {
         assertValidSeq("seq SeqName { optional foo : Int };");
     }
 
+    @Test
+    public void testRoleDeclaration() throws Exception {
+        assertValidRole("role Role1<Int>;");
+    }
+
+    @Test
+    public void testInvalidRoleDeclaration() throws Exception {
+        SerializrParser parser = createParserOnLines("role Role<Foo>;");
+        parser.roleDeclaration();
+        assertInvalidParsing(parser);
+    }
+
+    @Test
+    public void testCorrectUnit() throws Exception {
+        SerializrParser parser = createParserOnLines(
+                "package foo.bar;",
+                "",
+                "role MyRole<Long>;",
+                "",
+                "seq MySeq is MyRole<0> {",
+                "   id : Int,",
+                "   optional aField : Int",
+                "};"
+        );
+        parser.translationUnit();
+        assertValidParsing(parser);
+    }
+
     private void assertValidSeq(String... lines) throws IOException, RecognitionException {
         SerializrParser parser = createParserOnLines(lines);
         parseSeq(parser);
+        assertValidParsing(parser);
+    }
+
+    private void assertValidRole(String... lines) throws IOException, RecognitionException {
+        SerializrParser parser = createParserOnLines(lines);
+        parser.roleDeclaration().getTree();
         assertValidParsing(parser);
     }
 
@@ -89,14 +124,18 @@ public class GrammarTest {
         assertEquals(0, parser.getOccuredErrors().size());
     }
 
-    private SerializrParser createParserOnLines(String[] lines) throws IOException {
-        SerializrParser parser = parserFactory.createParser(toStr(lines));
-        return parser;
+    private void assertInvalidParsing(SerializrParser parser) {
+        if (parser.getOccuredErrors().size() == 0) {
+            fail("Expected parser to fail.");
+        }
+    }
+
+    private SerializrParser createParserOnLines(String... lines) throws IOException {
+        return parserFactory.createParser(toStr(lines));
     }
 
     private SequenceNode parseSeq(SerializrParser parser) throws RecognitionException {
-        SequenceNode seq = (SequenceNode) parser.seqDeclaration().getTree();
-        return seq;
+        return (SequenceNode) parser.seqDeclaration().getTree();
     }
 
     private static String toStr(String... line) {
