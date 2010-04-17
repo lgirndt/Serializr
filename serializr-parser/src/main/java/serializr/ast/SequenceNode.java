@@ -19,20 +19,12 @@
 package serializr.ast;
 
 import org.antlr.runtime.Token;
-import org.antlr.runtime.tree.CommonTree;
 import serializr.typesystem.Sequence;
 
 /*
 *
 */
 public class SequenceNode extends DefaultNode implements Sequence {
-
-    public SequenceNode() {
-    }
-
-    public SequenceNode(CommonTree node) {
-        super(node);
-    }
 
     public SequenceNode(Token t) {
         super(t);

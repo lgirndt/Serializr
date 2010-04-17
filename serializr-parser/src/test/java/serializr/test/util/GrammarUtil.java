@@ -2,6 +2,7 @@ package serializr.test.util;
 
 import com.google.common.base.Joiner;
 import org.antlr.runtime.RecognitionException;
+import serializr.ast.FieldNode;
 import serializr.ast.SequenceNode;
 import serializr.grammar.SerializrParser;
 import serializr.parser.ParserFactory;
@@ -24,5 +25,9 @@ public class GrammarUtil {
 
     public static SequenceNode parseSeq(SerializrParser parser) throws RecognitionException {
         return (SequenceNode) parser.seqDeclaration().getTree();
+    }
+
+    public static FieldNode parseField(SerializrParser parser) throws RecognitionException {
+        return (FieldNode) parser.fieldDeclaration().getTree();
     }
 }

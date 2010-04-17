@@ -16,6 +16,8 @@ tokens
 	ROLE_REFS;
 	SEQUENCE_BODY;
 	TYPES;
+	TYPEREF;
+	FIELD;
 	
 	QNAME;
 }
@@ -128,7 +130,7 @@ seqBodyDeclaration
 
 fieldDeclaration
 	:
-	modifiers variableDeclaration ':' type
+	modifiers variableDeclaration ':' type -> ^(FIELD ^(TYPEREF type) variableDeclaration modifiers?)
 	;
 
 variableDeclaration
