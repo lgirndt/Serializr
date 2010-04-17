@@ -30,7 +30,7 @@ import java.util.List;
 
 @lexer::header
 {
-package seriailzr.grammar;
+package serializr.grammar;
 }
 
 @members
