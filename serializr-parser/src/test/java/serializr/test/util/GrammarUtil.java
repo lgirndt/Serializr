@@ -11,10 +11,6 @@ import java.util.Arrays;
  *
  */
 public class GrammarUtil {
-    public static SerializrParser toParser() throws IOException {
-        SerializrParser parser = new ParserFactory().createParser("seq MyName {}");
-        return parser;
-    }
 
     public static String toStr(String... line) {
         return Joiner.on("\n").join(Arrays.asList(line));

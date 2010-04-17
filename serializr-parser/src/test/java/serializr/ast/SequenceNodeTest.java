@@ -17,7 +17,7 @@ public class SequenceNodeTest {
 
     @Test
     public void testGetName() throws IOException, RecognitionException {
-        SerializrParser parser = GrammarUtil.toParser();
+        SerializrParser parser = GrammarUtil.toParser("seq MyName {}");
         SequenceNode seq = (SequenceNode) parser.seqDeclaration().getTree();
         assertThat(seq.getName(), is("MyName"));
     }

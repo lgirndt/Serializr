@@ -8,6 +8,7 @@ import org.junit.Test;
 public class FieldNodeTest {
     @Test
     public void testGetName() throws Exception {
+
     }
 
     @Test
