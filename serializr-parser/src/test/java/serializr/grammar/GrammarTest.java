@@ -18,29 +18,18 @@
  */
 package serializr.grammar;
 
-import com.google.common.base.Joiner;
 import org.antlr.runtime.RecognitionException;
-import org.junit.Before;
 import org.junit.Test;
 import serializr.ast.SequenceNode;
-import serializr.parser.ParserFactory;
+import serializr.test.util.GrammarAssert;
+import serializr.test.util.GrammarUtil;
 
 import java.io.IOException;
-import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /*
 *
 */
 public class GrammarTest {
-    private ParserFactory parserFactory;
-
-    @Before
-    public void setUp() throws Exception {
-        parserFactory = new ParserFactory();
-    }
 
     @Test
     public void testSimpleSeq() throws Exception {
@@ -87,14 +76,14 @@ public class GrammarTest {
 
     @Test
     public void testInvalidRoleDeclaration() throws Exception {
-        SerializrParser parser = createParserOnLines("role Role<Foo>;");
+        SerializrParser parser = GrammarUtil.toParser("role Role<Foo>;");
         parser.roleDeclaration();
-        assertInvalidParsing(parser);
+        GrammarAssert.assertInvalidParsing(parser);
     }
 
     @Test
     public void testCorrectUnit() throws Exception {
-        SerializrParser parser = createParserOnLines(
+        SerializrParser parser = GrammarUtil.toParser(
                 "package foo.bar;",
                 "",
                 "role MyRole<Long>;",
@@ -105,40 +94,23 @@ public class GrammarTest {
                 "};"
         );
         parser.translationUnit();
-        assertValidParsing(parser);
+        GrammarAssert.assertValidParsing(parser);
     }
 
     private void assertValidSeq(String... lines) throws IOException, RecognitionException {
-        SerializrParser parser = createParserOnLines(lines);
+        SerializrParser parser = GrammarUtil.toParser(lines);
         parseSeq(parser);
-        assertValidParsing(parser);
+        GrammarAssert.assertValidParsing(parser);
     }
 
     private void assertValidRole(String... lines) throws IOException, RecognitionException {
-        SerializrParser parser = createParserOnLines(lines);
+        SerializrParser parser = GrammarUtil.toParser(lines);
         parser.roleDeclaration().getTree();
-        assertValidParsing(parser);
-    }
-
-    private void assertValidParsing(SerializrParser parser) {
-        assertEquals(0, parser.getOccuredErrors().size());
-    }
-
-    private void assertInvalidParsing(SerializrParser parser) {
-        if (parser.getOccuredErrors().size() == 0) {
-            fail("Expected parser to fail.");
-        }
-    }
-
-    private SerializrParser createParserOnLines(String... lines) throws IOException {
-        return parserFactory.createParser(toStr(lines));
+        GrammarAssert.assertValidParsing(parser);
     }
 
     private SequenceNode parseSeq(SerializrParser parser) throws RecognitionException {
         return (SequenceNode) parser.seqDeclaration().getTree();
     }
 
-    private static String toStr(String... line) {
-        return Joiner.on("\n").join(Arrays.asList(line));
-    }
 }
