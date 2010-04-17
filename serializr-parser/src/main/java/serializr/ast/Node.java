@@ -24,7 +24,7 @@ import org.antlr.runtime.tree.CommonTree;
 /*
 *
 */
-public abstract class Node extends CommonTree {
+abstract class Node extends CommonTree {
 
     protected Node() {
     }

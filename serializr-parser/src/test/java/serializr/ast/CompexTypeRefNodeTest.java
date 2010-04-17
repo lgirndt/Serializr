@@ -21,7 +21,6 @@ package serializr.ast;
 import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
 import serializr.grammar.SerializrParser;
-import serializr.test.util.GrammarUtil;
 import serializr.typesystem.TypeMatch;
 
 import java.io.IOException;

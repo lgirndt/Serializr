@@ -24,7 +24,7 @@ import org.antlr.runtime.tree.CommonTree;
 /*
 *
 */
-public class DefaultNode extends Node {
+class DefaultNode extends Node {
 
     public DefaultNode() {
     }

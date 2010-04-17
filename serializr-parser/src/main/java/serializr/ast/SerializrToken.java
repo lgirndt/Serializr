@@ -25,7 +25,7 @@ import org.antlr.runtime.Token;
 /*
 *
 */
-public class SerializrToken extends CommonToken {
+class SerializrToken extends CommonToken {
 
     public SerializrToken(int type) {
         super(type);

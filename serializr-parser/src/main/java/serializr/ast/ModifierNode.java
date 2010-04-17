@@ -30,7 +30,7 @@ import java.util.Set;
 /*
 *
 */
-public class ModifierNode extends DefaultNode {
+class ModifierNode extends Node {
 
     public ModifierNode(Token t) {
         super(t);

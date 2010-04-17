@@ -25,7 +25,7 @@ import serializr.typesystem.TypeRef;
 /*
 *
 */
-public class RoleRefNode extends DefaultNode implements RoleRef {
+class RoleRefNode extends Node implements RoleRef {
 
     public RoleRefNode(Token t) {
         super(t);

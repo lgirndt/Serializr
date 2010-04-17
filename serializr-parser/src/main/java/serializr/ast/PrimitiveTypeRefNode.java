@@ -26,7 +26,7 @@ import serializr.typesystem.TypeRef;
 /*
 *
 */
-public class PrimitiveTypeRefNode extends DefaultNode implements TypeRef {
+class PrimitiveTypeRefNode extends Node implements TypeRef {
 
     public PrimitiveTypeRefNode(Token t) {
         super(t);

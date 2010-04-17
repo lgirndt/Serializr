@@ -20,7 +20,6 @@ package serializr.ast;
 
 import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
-import serializr.test.util.GrammarUtil;
 import serializr.typesystem.TypeMatch;
 import serializr.typesystem.TypeRef;
 

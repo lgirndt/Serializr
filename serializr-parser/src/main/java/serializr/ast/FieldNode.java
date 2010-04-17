@@ -7,7 +7,7 @@ import serializr.typesystem.TypeRef;
 /**
  *
  */
-public class FieldNode extends DefaultNode implements Field {
+class FieldNode extends Node implements Field {
     public FieldNode(Token t) {
         super(t);
     }

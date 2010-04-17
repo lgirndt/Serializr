@@ -27,7 +27,7 @@ import java.util.List;
 /*
 *
 */
-public class QualifiedNameNode extends DefaultNode {
+class QualifiedNameNode extends Node {
 
     public QualifiedNameNode(Token t) {
         super(t);

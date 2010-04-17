@@ -1,9 +1,7 @@
-package serializr.test.util;
+package serializr.ast;
 
 import com.google.common.base.Joiner;
 import org.antlr.runtime.RecognitionException;
-import serializr.ast.FieldNode;
-import serializr.ast.SequenceNode;
 import serializr.grammar.SerializrParser;
 import serializr.parser.ParserFactory;
 

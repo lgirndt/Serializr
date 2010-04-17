@@ -7,7 +7,7 @@ import java.util.Iterator;
 /**
  *
  */
-public class TreeChildrenIterable implements Iterable<Tree> {
+class TreeChildrenIterable implements Iterable<Tree> {
 
     private final Tree tree;
 

@@ -3,7 +3,6 @@ package serializr.ast;
 import com.google.common.collect.Lists;
 import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
-import serializr.test.util.GrammarUtil;
 import serializr.typesystem.Field;
 import serializr.typesystem.RoleRef;
 
@@ -12,7 +11,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static serializr.test.util.GrammarUtil.toParser;
+import static serializr.ast.GrammarUtil.toParser;
 
 /**
  *

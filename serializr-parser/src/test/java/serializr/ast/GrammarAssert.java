@@ -1,4 +1,4 @@
-package serializr.test.util;
+package serializr.ast;
 
 import serializr.grammar.SerializrParser;
 

@@ -26,7 +26,7 @@ import serializr.typesystem.TypeRef;
 /*
 *
 */
-public class CompexTypeRefNode extends DefaultNode implements TypeRef {
+class CompexTypeRefNode extends Node implements TypeRef {
 
     public CompexTypeRefNode(Token t) {
         super(t);

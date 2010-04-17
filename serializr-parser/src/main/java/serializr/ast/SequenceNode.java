@@ -30,7 +30,7 @@ import serializr.typesystem.SerializrPackage;
 /*
 *
 */
-public class SequenceNode extends DefaultNode implements Sequence {
+class SequenceNode extends Node implements Sequence {
 
     public SequenceNode(Token t) {
         super(t);

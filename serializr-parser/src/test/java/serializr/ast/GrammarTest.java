@@ -16,12 +16,11 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package serializr.grammar;
+package serializr.ast;
 
 import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
-import serializr.test.util.GrammarAssert;
-import serializr.test.util.GrammarUtil;
+import serializr.grammar.SerializrParser;
 
 import java.io.IOException;
 
