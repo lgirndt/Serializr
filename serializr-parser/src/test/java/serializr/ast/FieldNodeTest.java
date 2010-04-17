@@ -3,12 +3,13 @@ package serializr.ast;
 import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
 import serializr.test.util.GrammarUtil;
+import serializr.typesystem.TypeMatch;
 
 import java.io.IOException;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static serializr.test.util.GrammarUtil.toParser;
 
 /**
@@ -23,8 +24,11 @@ public class FieldNodeTest {
     }
 
     @Test
-    public void testGetTypeRef() throws Exception {
-        fail("TODO");
+    public void testGetTypeRefOnPrimitive() throws Exception {
+        FieldNode field = parseField("myName : Int");
+        TypeMatch expected = TypeMatch.createPrimitiveTypeMatch("Int");
+        assertNotNull(field.getTypeRef());
+        assertThat(field.getTypeRef().getTypeMatch(), is(expected));
     }
 
     @Test

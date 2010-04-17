@@ -19,12 +19,15 @@ public class FieldNode extends DefaultNode implements Field {
 
     @Override
     public TypeRef getTypeRef() {
-        return null;
+        return (TypeRef) getChild(0);
+    }
+
+    private ModifierNode getModifiers() {
+        return (ModifierNode) getChild(2);
     }
 
     @Override
     public boolean isOptional() {
-        // TODO
-        return false;
+        return getModifiers().containsOptional();
     }
 }

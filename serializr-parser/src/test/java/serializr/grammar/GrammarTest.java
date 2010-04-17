@@ -43,7 +43,7 @@ public class GrammarTest {
     @Test
     public void testSeqWithSingleRole() throws Exception {
         assertValidSeq(
-                "seq SeqName is Role1<1> {",
+                "seq SeqName is Role1(1) {",
                 "   aField : Int",
                 "};"
         );
@@ -52,15 +52,26 @@ public class GrammarTest {
     @Test
     public void testSeqWithMultipleRoles() throws Exception {
         assertValidSeq(
-                "seq SeqName is Role1<1>, Role2<2> {",
+                "seq SeqName is Role1(1), Role2(2) {",
                 "   aField : Int",
                 "};"
+        );
+    }
+
+    public void testSeqWithComplexField() throws Exception {
+        assertValidSeq(
+                "seq SeqName { aField : ComplexType };"
         );
     }
 
     @Test
     public void testSeqEmpty() throws Exception {
         assertValidSeq("seq SeqName {};");
+    }
+
+    @Test
+    public void testSeqWithLargerRoleToken() throws Exception {
+        assertValidSeq("seq SeqName is Role(1234) {};");
     }
 
     @Test
@@ -87,9 +98,10 @@ public class GrammarTest {
                 "",
                 "role MyRole<Long>;",
                 "",
-                "seq MySeq is MyRole<0> {",
+                "seq MySeq is MyRole(0) {",
                 "   id : Int,",
-                "   optional aField : Int",
+                "   optional aField : Int,",
+                "   complexType : ComplexType",
                 "};"
         );
         parser.translationUnit();

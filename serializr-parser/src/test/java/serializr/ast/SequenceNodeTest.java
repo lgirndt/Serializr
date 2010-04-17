@@ -5,6 +5,7 @@ import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
 import serializr.test.util.GrammarUtil;
 import serializr.typesystem.Field;
+import serializr.typesystem.RoleRef;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,6 +30,13 @@ public class SequenceNodeTest {
         SequenceNode seq = parseSeq("seq MyName { aField : Int, anotherField : String };");
         List<Field> fields = Lists.newArrayList(seq.getFields());
         assertThat(fields.size(), is(2));
+    }
+
+    @Test
+    public void testGetRoleRefs() throws Exception {
+        SequenceNode seq = parseSeq("seq MySeq is Role1234(1234), Role3456(3456) {};");
+        List<RoleRef> roleRefs = Lists.newArrayList(seq.getRoleRefs());
+        assertThat(roleRefs.size(), is(2));
     }
 
     private SequenceNode parseSeq(String... lines) throws RecognitionException, IOException {

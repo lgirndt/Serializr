@@ -23,7 +23,9 @@ import com.google.common.collect.Iterables;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.Tree;
 import serializr.typesystem.Field;
+import serializr.typesystem.RoleRef;
 import serializr.typesystem.Sequence;
+import serializr.typesystem.SerializrPackage;
 
 /*
 *
@@ -40,9 +42,20 @@ public class SequenceNode extends DefaultNode implements Sequence {
     }
 
     @Override
+    public SerializrPackage getPackage() {
+        throw new RuntimeException("IMPLEMENT ME");
+    }
+
+    @Override
     public Iterable<? extends Field> getFields() {
         Tree seqBody = getChild(1);
         return Iterables.transform(new TreeChildrenIterable(seqBody), toFieldCast());
+    }
+
+    @Override
+    public Iterable<? extends RoleRef> getRoleRefs() {
+        Tree roleRefs = getChild(2);
+        return Iterables.transform(new TreeChildrenIterable(roleRefs), toRoleRefCast());
     }
 
     private Function<Tree, Field> toFieldCast() {
@@ -51,6 +64,16 @@ public class SequenceNode extends DefaultNode implements Sequence {
             @Override
             public FieldNode apply(Tree tree) {
                 return (FieldNode) tree;
+            }
+        };
+    }
+
+    private Function<Tree, RoleRef> toRoleRefCast() {
+        return new Function<Tree, RoleRef>() {
+
+            @Override
+            public RoleRef apply(Tree tree) {
+                return (RoleRef) tree;
             }
         };
     }

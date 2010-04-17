@@ -14,11 +14,13 @@ tokens
 	
 	SEQUENCE;
 	ROLE_REFS;
+	ROLE_REF;
 	SEQUENCE_BODY;
 	TYPES;
-	TYPEREF;
-	PRIMITIVE_TYPE;
+	PRIMITIVE_TYPE_REF;
+	COMPLEX_TYPE_REF;
 	FIELD;
+	MODIFIER;
 	
 	QNAME;
 }
@@ -100,7 +102,7 @@ packageDeclaration
 
 qualifiedName 
     :   IDENTIFIER
-            ( '.'! IDENTIFIER )*		
+            ( '.' IDENTIFIER )* -> ^(QNAME IDENTIFIER+)		
     ; 
 
 modifiers 
@@ -131,7 +133,8 @@ seqBodyDeclaration
 
 fieldDeclaration
 	:
-	modifiers variableDeclaration ':' type -> ^(FIELD ^(TYPEREF type) variableDeclaration modifiers?)
+	modifiers variableDeclaration ':' type 
+	-> ^(FIELD type variableDeclaration ^(MODIFIER modifiers? ) )
 	;
 
 variableDeclaration
@@ -145,7 +148,7 @@ roleRefList
 	;	
 	
 roleRef
-	:	IDENTIFIER '<' NUMBER '>'
+	:	roleOrSeqType '(' NUMBER ')' -> ^(ROLE_REF roleOrSeqType NUMBER)
 	;
 		
 typeOrCollectionType
@@ -156,11 +159,15 @@ type	:
 	;
 
 primitiveType
+	:	primitiveTypeItems -> ^(PRIMITIVE_TYPE_REF primitiveTypeItems)
+	;
+
+primitiveTypeItems
 	:	'Boolean'
 	|	'Char'
 	|	primitiveIntegerNumberType
 	|	'Float'
-	|	'Double' -> ^(PRIMITIVE_TYPE ) 
+	|	'Double'
 	;
 	
 primitiveIntegerNumberType
@@ -180,7 +187,7 @@ collectionTypeName
 	
 roleOrSeqType
 	:
-	qualifiedName
+	qualifiedName -> ^(COMPLEX_TYPE_REF qualifiedName)
 	;	
 	
 roleDeclaration
@@ -208,7 +215,7 @@ IdentifierPart
     	|	'_'
 	;
 NUMBER
-	:	'0'..'9';
+	:	('0'..'9')+;
 			
 /* everything hidden */
 WS  :  (' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;}	
