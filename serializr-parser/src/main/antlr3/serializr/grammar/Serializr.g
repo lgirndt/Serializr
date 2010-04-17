@@ -13,6 +13,7 @@ tokens
 	PACKAGE;
 	
 	SEQUENCE;
+	ROLE;
 	ROLE_REFS;
 	ROLE_REF;
 	SEQUENCE_BODY;
@@ -192,7 +193,7 @@ roleOrSeqType
 	
 roleDeclaration
 	:
-	'role' IDENTIFIER '<'! primitiveIntegerNumberType '>'! ';'!
+	'role' IDENTIFIER ';' -> ^(ROLE IDENTIFIER)
 	;
 		
     

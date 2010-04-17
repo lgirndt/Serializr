@@ -57,6 +57,8 @@ public class TreeAdaptor extends BaseTreeAdaptor {
                 return new QualifiedNameNode(payload);
             case SerializrParser.ROLE_REF:
                 return new RoleRefNode(payload);
+            case SerializrParser.ROLE:
+                return new RoleNode(payload);
             case SerializrParser.MODIFIER:
                 return new ModifierNode(payload);
             default:

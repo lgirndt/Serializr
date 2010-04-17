@@ -80,7 +80,7 @@ public class GrammarTest {
 
     @Test
     public void testRoleDeclaration() throws Exception {
-        assertValidRole("role Role1<Int>;");
+        assertValidRole("role Role1;");
     }
 
     @Test
@@ -95,7 +95,7 @@ public class GrammarTest {
         SerializrParser parser = GrammarUtil.toParser(
                 "package foo.bar;",
                 "",
-                "role MyRole<Long>;",
+                "role MyRole;",
                 "",
                 "seq MySeq is MyRole(0) {",
                 "   id : Int,",
