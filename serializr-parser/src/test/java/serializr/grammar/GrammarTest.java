@@ -20,7 +20,6 @@ package serializr.grammar;
 
 import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
-import serializr.ast.SequenceNode;
 import serializr.test.util.GrammarAssert;
 import serializr.test.util.GrammarUtil;
 
@@ -99,7 +98,7 @@ public class GrammarTest {
 
     private void assertValidSeq(String... lines) throws IOException, RecognitionException {
         SerializrParser parser = GrammarUtil.toParser(lines);
-        parseSeq(parser);
+        GrammarUtil.parseSeq(parser);
         GrammarAssert.assertValidParsing(parser);
     }
 
@@ -107,10 +106,6 @@ public class GrammarTest {
         SerializrParser parser = GrammarUtil.toParser(lines);
         parser.roleDeclaration().getTree();
         GrammarAssert.assertValidParsing(parser);
-    }
-
-    private SequenceNode parseSeq(SerializrParser parser) throws RecognitionException {
-        return (SequenceNode) parser.seqDeclaration().getTree();
     }
 
 }
