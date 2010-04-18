@@ -30,7 +30,7 @@ import java.util.List;
 public class TypeMatch {
 
     private String typeName;
-    private List<String> packageName;
+    private SerializrPackage pkg;
 
     static public TypeMatch createFullTypeMatch(String typeName, SerializrPackage pkg) {
         return createFullTypeMatch(typeName, pkg.getPackageNames());
@@ -45,24 +45,37 @@ public class TypeMatch {
     }
 
     static public TypeMatch createLocalTypeMatch(String typeName) {
-        return new TypeMatch(typeName, null);
+        return new TypeMatch(typeName);
     }
 
     static public TypeMatch createPrimitiveTypeMatch(String typeName) {
-        return new TypeMatch(typeName, Lists.newArrayList("__builtin__"));
+        return new TypeMatch(typeName, Builtins.BUILTIN_PKG);
+    }
+
+    private TypeMatch(String typeName) {
+        this.typeName = typeName;
+        this.pkg = null;
     }
 
     private TypeMatch(String typeName, List<String> packageName) {
+        this(typeName, new SerializrPackage(packageName));
+    }
+
+    private TypeMatch(String typeName, SerializrPackage pck) {
         this.typeName = typeName;
-        this.packageName = packageName;
+        this.pkg = pck;
     }
 
     public String getTypeName() {
         return typeName;
     }
 
-    public List<String> getPackageName() {
-        return packageName;
+    public List<String> getPackageNames() {
+        return pkg.getPackageNames();
+    }
+
+    public SerializrPackage getPackage() {
+        return pkg;
     }
 
     public boolean matches(TypeMatch match) {
@@ -73,7 +86,7 @@ public class TypeMatch {
     }
 
     private boolean isInconcrete() {
-        return packageName == null;
+        return pkg == null;
     }
 
     @Override
@@ -83,7 +96,7 @@ public class TypeMatch {
 
         TypeMatch typeMatch = (TypeMatch) o;
 
-        if (packageName != null ? !packageName.equals(typeMatch.packageName) : typeMatch.packageName != null)
+        if (pkg != null ? !pkg.equals(typeMatch.pkg) : typeMatch.pkg != null)
             return false;
         if (typeName != null ? !typeName.equals(typeMatch.typeName) : typeMatch.typeName != null)
             return false;
@@ -94,7 +107,7 @@ public class TypeMatch {
     @Override
     public int hashCode() {
         int result = typeName != null ? typeName.hashCode() : 0;
-        result = 31 * result + (packageName != null ? packageName.hashCode() : 0);
+        result = 31 * result + (pkg != null ? pkg.hashCode() : 0);
         return result;
     }
 
@@ -102,7 +115,7 @@ public class TypeMatch {
     public String toString() {
         List<String> result = Lists.newArrayList();
         if (!isInconcrete()) {
-            result.addAll(getPackageName());
+            result.addAll(getPackageNames());
         }
         result.add(getTypeName());
         return Joiner.on(".").join(result);

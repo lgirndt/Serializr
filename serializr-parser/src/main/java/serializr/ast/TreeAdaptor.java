@@ -18,20 +18,26 @@
  */
 package serializr.ast;
 
+import com.google.common.collect.Lists;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.BaseTreeAdaptor;
 import serializr.grammar.SerializrParser;
+import serializr.typesystem.TypeRef;
+
+import java.util.List;
 
 /*
 *
 */
 public class TreeAdaptor extends BaseTreeAdaptor {
 
+    private final List<TypeParsingEventListener> typeParsingListeners = Lists.newArrayList();
 
     @Override
     public Token createToken(int tokenType, String text) {
         return new SerializrToken(tokenType, text);
     }
+
 
     @Override
     public Token createToken(Token fromToken) {
@@ -46,26 +52,70 @@ public class TreeAdaptor extends BaseTreeAdaptor {
 
         switch (payload.getType()) {
             case SerializrParser.UNIT:
-                return new TranslationUnitNode(payload);
+                return newTranslationUnit(payload);
             case SerializrParser.SEQUENCE:
-                return new SequenceNode(payload);
+                return newSequenceNode(payload);
             case SerializrParser.FIELD:
-                return new FieldNode(payload);
+                return newFieldNode(payload);
             case SerializrParser.PRIMITIVE_TYPE_REF:
-                return new PrimitiveTypeRefNode(payload);
+                return newPrimitiveTypeRefNode(payload);
             case SerializrParser.COMPLEX_TYPE_REF:
-                return new CompexTypeRefNode(payload);
+                return newComplexTypeRefNode(payload);
             case SerializrParser.QNAME:
-                return new QualifiedNameNode(payload);
+                return newQualifiedNameNode(payload);
             case SerializrParser.ROLE_REF:
-                return new RoleRefNode(payload);
+                return newRoleRefNode(payload);
             case SerializrParser.ROLE:
-                return new RoleNode(payload);
+                return newRoleNode(payload);
             case SerializrParser.MODIFIER:
-                return new ModifierNode(payload);
+                return newModifierNode(payload);
             default:
-                return new DefaultNode(payload);
+                return newDefaultNode(payload);
         }
+    }
+
+    private Object newDefaultNode(Token payload) {
+        return new DefaultNode(payload);
+    }
+
+    private Object newModifierNode(Token payload) {
+        return new ModifierNode(payload);
+    }
+
+    private Object newRoleNode(Token payload) {
+        return new RoleNode(payload);
+    }
+
+    private Object newRoleRefNode(Token payload) {
+        return new RoleRefNode(payload);
+    }
+
+    private Object newQualifiedNameNode(Token payload) {
+        return new QualifiedNameNode(payload);
+    }
+
+    private Object newComplexTypeRefNode(Token payload) {
+        CompexTypeRefNode node = new CompexTypeRefNode(payload);
+        fireTypeRefFound(node);
+        return node;
+    }
+
+    private Object newPrimitiveTypeRefNode(Token payload) {
+        PrimitiveTypeRefNode node = new PrimitiveTypeRefNode(payload);
+        fireTypeRefFound(node);
+        return node;
+    }
+
+    private Object newFieldNode(Token payload) {
+        return new FieldNode(payload);
+    }
+
+    private Object newSequenceNode(Token payload) {
+        return new SequenceNode(payload);
+    }
+
+    private Object newTranslationUnit(Token payload) {
+        return new TranslationUnitNode(payload);
     }
 
     public Object dupNode(Object treeNode) {
@@ -93,10 +143,10 @@ public class TreeAdaptor extends BaseTreeAdaptor {
         return asNode(t).getTokenStopIndex();
     }
 
-
     public Object getParent(Object t) {
         return asNode(t).getParent();
     }
+
 
     public void setParent(Object t, Object parent) {
         asNode(t).setParent(asNode(parent));
@@ -116,6 +166,20 @@ public class TreeAdaptor extends BaseTreeAdaptor {
 
     private Node asNode(Object o) {
         return (Node) o;
+    }
+
+    public void addListener(TypeParsingEventListener typeParsingEventListener) {
+        typeParsingListeners.add(typeParsingEventListener);
+    }
+
+    public void removeListener(TypeParsingEventListener typeParsingEventListener) {
+        typeParsingListeners.remove(typeParsingEventListener);
+    }
+
+    private void fireTypeRefFound(TypeRef typeRef) {
+        for (TypeParsingEventListener listener : typeParsingListeners) {
+            listener.typeRefFound(typeRef);
+        }
     }
 
 }
