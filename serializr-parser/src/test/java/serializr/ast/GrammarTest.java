@@ -85,6 +85,11 @@ public class GrammarTest {
     }
 
     @Test
+    public void testFieldWithList() throws Exception {
+        assertValidSeq("seq MySeq { aList : List[Int] };");
+    }
+
+    @Test
     public void testCorrectUnit() throws Exception {
         SerializrParser parser = GrammarUtil.toParser(
                 "package foo.bar;",

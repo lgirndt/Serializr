@@ -20,6 +20,9 @@ package serializr.parser;
 
 import org.junit.Test;
 import serializr.ast.GrammarUtil;
+import serializr.typesystem.Field;
+import serializr.typesystem.Role;
+import serializr.typesystem.Sequence;
 import serializr.typesystem.TranslationUnit;
 
 import static org.junit.Assert.assertNotNull;
@@ -37,8 +40,23 @@ public class ModelFactoryTest {
                 "role Role1;",
                 "role Role2;",
                 "seq MySeq is Role1(42) { aField : Role1, forWard : AnotherSeq };",
-                "seq AnotherSeq is Role2(23) { anInt : Int, aLong : Long };"
+                "seq AnotherSeq is Role2(23) { anInt : Int, aLong : Long };",
+                "seq SeqWithList { aPrimitiveList : List[Int], aSeqList : List[MySeq] };"
         ));
         assertNotNull(unit);
+        for (Role role : unit.getRoles()) {
+            assertNotNull(role);
+            assertNotNull(role.getName());
+            assertNotNull(role.getPackage());
+        }
+        for (Sequence seq : unit.getSequences()) {
+            assertNotNull(seq);
+            for (Field field : seq.getFields()) {
+                assertNotNull(field);
+                assertNotNull(field.getName());
+                assertNotNull(field.getTypeRef());
+                assertNotNull(field.getTypeRef().getSerializrType());
+            }
+        }
     }
 }

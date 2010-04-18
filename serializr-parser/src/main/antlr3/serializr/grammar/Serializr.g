@@ -135,8 +135,8 @@ seqBodyDeclaration
 
 fieldDeclaration
 	:
-	modifiers variableDeclaration ':' type 
-	-> ^(FIELD type variableDeclaration ^(MODIFIER modifiers? ) )
+	modifiers variableDeclaration ':' typeOrCollectionType 
+	-> ^(FIELD typeOrCollectionType variableDeclaration ^(MODIFIER modifiers? ) )
 	;
 
 variableDeclaration
@@ -154,7 +154,7 @@ roleRef
 	;
 		
 typeOrCollectionType
-	: type | collectionType;
+	:  collectionType | type;
 	
 type	: 
 	roleOrSeqType | primitiveType
@@ -181,13 +181,9 @@ primitiveIntegerNumberType
 	;	
 	
 collectionType
-	:	collectionTypeName '[' type ']' -> ^(COLLECTION_TYPE_REF type)
+	: 'List' '[' type ']' -> ^(COLLECTION_TYPE_REF type)
 	;	
-	
-collectionTypeName
-	:	'List'
-	;	
-	
+		
 roleOrSeqType
 	:
 	qualifiedName -> ^(COMPLEX_TYPE_REF qualifiedName)
@@ -219,6 +215,12 @@ IdentifierPart
 	;
 NUMBER
 	:	('0'..'9')+;
+	
+/*	
+COLLECTION_NAME
+	:	'List'
+	;
+*/
 			
 /* everything hidden */
 WS  :  (' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;}	

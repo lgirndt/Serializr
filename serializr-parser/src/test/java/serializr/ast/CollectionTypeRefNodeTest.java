@@ -34,4 +34,5 @@ public class CollectionTypeRefNodeTest {
         CollectionType type = (CollectionType) node.getSerializrType();
         Assert.assertNotNull(type);
     }
+
 }
