@@ -45,7 +45,7 @@ class TypeLookup implements TypeParsingEventListener {
     }
 
     @Override
-    public void typeFound(Type type) {
+    public void foundType(Type type) {
         TypeMatch key = TypeMatch.toTypeMatch(type);
 
         if (typeMap.containsKey(key)) {
@@ -56,7 +56,7 @@ class TypeLookup implements TypeParsingEventListener {
     }
 
     @Override
-    public void typeRefFound(TypeRef typeRef) {
+    public void foundTypeRef(TypeRef typeRef) {
         typeRefs.add(typeRef);
     }
 

@@ -61,12 +61,12 @@ class TypeResolver implements TypeParsingEventListener {
     }
 
     @Override
-    public void typeFound(Type type) {
+    public void foundType(Type type) {
         typeLookup.typeFound(type);
     }
 
     @Override
-    public void typeRefFound(TypeRef typeRef) {
-        typeLookup.typeRefFound(typeRef);
+    public void foundTypeRef(TypeRef typeRef) {
+        typeLookup.foundTypeRef(typeRef);
     }
 }

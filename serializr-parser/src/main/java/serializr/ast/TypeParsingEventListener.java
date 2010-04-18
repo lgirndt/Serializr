@@ -26,7 +26,7 @@ import serializr.typesystem.TypeRef;
 */
 public interface TypeParsingEventListener {
 
-    void typeFound(Type type);
+    void foundType(Type type);
 
-    void typeRefFound(TypeRef typeRef);
+    void foundTypeRef(TypeRef typeRef);
 }

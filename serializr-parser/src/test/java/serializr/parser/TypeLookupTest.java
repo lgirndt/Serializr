@@ -67,8 +67,8 @@ public class TypeLookupTest {
 
     @Test
     public void testTypeRefFound() throws Exception {
-        lookup.typeRefFound(new SimpleTypeRef("Foo"));
-        lookup.typeRefFound(new SimpleTypeRef("Foo"));
+        lookup.foundTypeRef(new SimpleTypeRef("Foo"));
+        lookup.foundTypeRef(new SimpleTypeRef("Foo"));
         List<TypeRef> typeRefs = Lists.newArrayList(lookup.getTypeRefs());
         errorReporter.assertNoError();
         assertThat(typeRefs.size(), is(2));

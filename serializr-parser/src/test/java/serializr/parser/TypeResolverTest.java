@@ -54,10 +54,10 @@ public class TypeResolverTest {
     public void testResolveFullType() throws Exception {
 
         Type type = new SimpleType("Foo", pkg);
-        resolver.typeFound(type);
+        resolver.foundType(type);
 
         TypeRef typeRef = new SimpleTypeRef("Foo", pkg);
-        resolver.typeRefFound(typeRef);
+        resolver.foundTypeRef(typeRef);
 
         replay(unit);
 
@@ -68,10 +68,10 @@ public class TypeResolverTest {
     @Test
     public void testResolveLocalType() throws Exception {
         Type type = new SimpleType("Foo", pkg);
-        resolver.typeFound(type);
+        resolver.foundType(type);
 
         TypeRef typeRef = new SimpleTypeRef("Foo");
-        resolver.typeRefFound(typeRef);
+        resolver.foundTypeRef(typeRef);
 
         replay(unit);
 
@@ -82,7 +82,7 @@ public class TypeResolverTest {
     @Test
     public void testResolveOnNonExistingType() throws Exception {
         TypeRef typeRef = new SimpleTypeRef("Foo");
-        resolver.typeRefFound(typeRef);
+        resolver.foundTypeRef(typeRef);
         replay(unit);
         resolver.resolve(unit);
         reporter.assertError(1);

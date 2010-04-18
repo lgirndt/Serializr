@@ -178,7 +178,7 @@ public class TreeAdaptor extends BaseTreeAdaptor {
 
     private void fireTypeRefFound(TypeRef typeRef) {
         for (TypeParsingEventListener listener : typeParsingListeners) {
-            listener.typeRefFound(typeRef);
+            listener.foundTypeRef(typeRef);
         }
     }
 
