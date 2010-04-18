@@ -103,7 +103,7 @@ public class GrammarTest {
 
     private void assertValidSeq(String... lines) throws IOException, RecognitionException {
         SerializrParser parser = GrammarUtil.toParser(lines);
-        GrammarUtil.parseSeq(parser);
+        parser.seqDeclaration();
         GrammarAssert.assertValidParsing(parser);
     }
 

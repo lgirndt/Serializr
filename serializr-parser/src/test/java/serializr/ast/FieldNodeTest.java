@@ -2,6 +2,7 @@ package serializr.ast;
 
 import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
+import serializr.grammar.SerializrParser;
 import serializr.typesystem.TypeMatch;
 
 import java.io.IOException;
@@ -37,6 +38,10 @@ public class FieldNodeTest {
     }
 
     private FieldNode parseField(String... lines) throws RecognitionException, IOException {
-        return GrammarUtil.parseField(toParser(lines));
+        return parseField(toParser(lines));
+    }
+
+    private FieldNode parseField(SerializrParser parser) throws RecognitionException {
+        return (FieldNode) parser.fieldDeclaration().getTree();
     }
 }

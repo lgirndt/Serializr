@@ -3,6 +3,7 @@ package serializr.ast;
 import com.google.common.collect.Lists;
 import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
+import serializr.grammar.SerializrParser;
 import serializr.typesystem.Field;
 import serializr.typesystem.RoleRef;
 
@@ -39,7 +40,10 @@ public class SequenceNodeTest {
     }
 
     private SequenceNode parseSeq(String... lines) throws RecognitionException, IOException {
-        return GrammarUtil.parseSeq(toParser(lines));
+        return parseSeq(toParser(lines));
     }
 
+    public static SequenceNode parseSeq(SerializrParser parser) throws RecognitionException {
+        return (SequenceNode) parser.seqDeclaration().getTree();
+    }
 }

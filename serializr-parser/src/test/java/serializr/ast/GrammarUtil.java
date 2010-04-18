@@ -1,7 +1,6 @@
 package serializr.ast;
 
 import com.google.common.base.Joiner;
-import org.antlr.runtime.RecognitionException;
 import serializr.grammar.SerializrParser;
 import serializr.parser.ParserFactory;
 
@@ -21,11 +20,4 @@ public class GrammarUtil {
         return new ParserFactory().createParser(toStr(lines));
     }
 
-    public static SequenceNode parseSeq(SerializrParser parser) throws RecognitionException {
-        return (SequenceNode) parser.seqDeclaration().getTree();
-    }
-
-    public static FieldNode parseField(SerializrParser parser) throws RecognitionException {
-        return (FieldNode) parser.fieldDeclaration().getTree();
-    }
 }
