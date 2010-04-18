@@ -45,7 +45,7 @@ class TypeResolver implements TypeParsingEventListener {
 
     private void addBuiltinTypes(TypeLookup typeLookup) {
         for (Type builtin : Builtins.TYPES) {
-            typeLookup.typeFound(builtin);
+            typeLookup.foundType(builtin);
         }
     }
 
@@ -62,7 +62,7 @@ class TypeResolver implements TypeParsingEventListener {
 
     @Override
     public void foundType(Type type) {
-        typeLookup.typeFound(type);
+        typeLookup.foundType(type);
     }
 
     @Override

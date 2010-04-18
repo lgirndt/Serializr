@@ -49,7 +49,7 @@ public class TypeLookupTest {
     @Test
     public void testTypeFound() throws Exception {
 
-        lookup.typeFound(new SimpleType("Foo", "bar"));
+        lookup.foundType(new SimpleType("Foo", "bar"));
         List<Type> types = Lists.newArrayList(lookup.getTypes());
 
         errorReporter.assertNoError();
@@ -59,8 +59,8 @@ public class TypeLookupTest {
     @Test
     public void testTypeFoundTwice() throws Exception {
 
-        lookup.typeFound(new SimpleType("Foo", "bar"));
-        lookup.typeFound(new SimpleType("Foo", "bar"));
+        lookup.foundType(new SimpleType("Foo", "bar"));
+        lookup.foundType(new SimpleType("Foo", "bar"));
 
         errorReporter.assertError(1);
     }
@@ -77,7 +77,7 @@ public class TypeLookupTest {
     @Test
     public void testLookupFullRef() throws Exception {
         Type expectedType = new SimpleType("Foo", "bar");
-        lookup.typeFound(expectedType);
+        lookup.foundType(expectedType);
 
         Type type = lookup.lookup(new SimpleTypeRef("Foo", "bar"), new SerializrPackage("bar"));
 
@@ -87,7 +87,7 @@ public class TypeLookupTest {
     @Test
     public void testLookupLocalRef() throws Exception {
         Type expectedType = new SimpleType("Foo", "bar");
-        lookup.typeFound(expectedType);
+        lookup.foundType(expectedType);
 
         Type type = lookup.lookup(new SimpleTypeRef("Foo"), new SerializrPackage("bar"));
 
