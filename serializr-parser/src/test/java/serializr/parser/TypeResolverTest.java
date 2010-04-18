@@ -77,7 +77,15 @@ public class TypeResolverTest {
 
         resolver.resolve(unit);
         assertSuccessfulResolution(type, typeRef);
+    }
 
+    @Test
+    public void testResolveOnNonExistingType() throws Exception {
+        TypeRef typeRef = new SimpleTypeRef("Foo");
+        resolver.typeRefFound(typeRef);
+        replay(unit);
+        resolver.resolve(unit);
+        reporter.assertError(1);
     }
 
     private void assertSuccessfulResolution(Type type, TypeRef typeRef) {
