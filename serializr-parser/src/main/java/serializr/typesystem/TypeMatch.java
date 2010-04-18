@@ -89,7 +89,7 @@ public class TypeMatch {
         return this.equals(match);
     }
 
-    private boolean isLocal() {
+    public boolean isLocal() {
         return pkg == null;
     }
 

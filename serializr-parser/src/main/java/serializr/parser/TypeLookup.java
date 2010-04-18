@@ -69,8 +69,20 @@ class TypeLookup implements TypeParsingEventListener {
     }
 
     public Type lookup(TypeRef typeRef, SerializrPackage currentPackage) {
-        // TODO
-        return null;
+        TypeMatch match = typeRef.getTypeMatch();
+        if (match.isLocal()) {
+            TypeMatch qualifiedMatch = deriveQualifiedMatch(currentPackage, match);
+            return typeMap.get(qualifiedMatch);
+        } else {
+            return typeMap.get(match);
+        }
+    }
+
+    private TypeMatch deriveQualifiedMatch(SerializrPackage currentPackage, TypeMatch match) {
+        return TypeMatch.createFullTypeMatch(
+                match.getTypeName(),
+                currentPackage
+        );
     }
 
 }

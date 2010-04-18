@@ -53,6 +53,10 @@ public class SimpleTypeRef implements TypeRef {
 
     @Override
     public TypeMatch getTypeMatch() {
-        return TypeMatch.createFullTypeMatch(typeName, pkg);
+        if (pkg == null) {
+            return TypeMatch.createLocalTypeMatch(typeName);
+        } else {
+            return TypeMatch.createFullTypeMatch(typeName, pkg);
+        }
     }
 }
