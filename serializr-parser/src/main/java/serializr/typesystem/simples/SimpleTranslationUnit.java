@@ -16,44 +16,42 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package serializr.ast;
+package serializr.typesystem.simples;
 
-import org.antlr.runtime.Token;
-import serializr.typesystem.Type;
-import serializr.typesystem.TypeMatch;
-import serializr.typesystem.TypeRef;
+import serializr.typesystem.Role;
+import serializr.typesystem.Sequence;
+import serializr.typesystem.SerializrPackage;
+import serializr.typesystem.TranslationUnit;
+
+import java.util.List;
 
 /*
 *
 */
-class CompexTypeRefNode extends Node implements TypeRef {
+public class SimpleTranslationUnit implements TranslationUnit {
 
-    private Type type;
+    private final SerializrPackage pkg;
+    private final List<Role> roles;
+    private final List<Sequence> sequences;
 
-    public CompexTypeRefNode(Token t) {
-        super(t);
+    public SimpleTranslationUnit(SerializrPackage pkg, List<Role> roles, List<Sequence> sequences) {
+        this.pkg = pkg;
+        this.roles = roles;
+        this.sequences = sequences;
     }
 
     @Override
-    public Type getSerializrType() {
-        if (type == null) throw new IllegalStateException();
-        return type;
+    public SerializrPackage getPackage() {
+        return pkg;
     }
 
     @Override
-    public void applySerializrType(Type type) {
-        this.type = type;
+    public Iterable<? extends Role> getRoles() {
+        return roles;
     }
 
     @Override
-    public TypeMatch getTypeMatch() {
-        QualifiedNameNode qname = (QualifiedNameNode) getChild(0);
-
-        if (qname.hasFullName()) {
-            return TypeMatch.createFullTypeMatch(qname.getName(), qname.getPackage());
-        } else {
-            return TypeMatch.createLocalTypeMatch(qname.getName());
-        }
+    public Iterable<? extends Sequence> getSequences() {
+        return sequences;
     }
-
 }

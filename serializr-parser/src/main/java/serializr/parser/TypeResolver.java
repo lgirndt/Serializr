@@ -18,13 +18,16 @@
  */
 package serializr.parser;
 
+import serializr.ast.TypeParsingEventListener;
 import serializr.typesystem.Builtins;
+import serializr.typesystem.TranslationUnit;
 import serializr.typesystem.Type;
+import serializr.typesystem.TypeRef;
 
 /*
 *
 */
-class TypeResolver {
+class TypeResolver implements TypeParsingEventListener {
 
     private final ErrorReporter errorReporter;
     private final TypeLookup typeLookup;
@@ -46,7 +49,24 @@ class TypeResolver {
         }
     }
 
-    public void resolve() {
+    public void resolve(TranslationUnit unit) {
+        for (TypeRef ref : typeLookup.getTypeRefs()) {
+            Type foundType = typeLookup.lookup(ref, unit.getPackage());
+            if (foundType == null) {
+                errorReporter.reportError("Cannot resolve type reference '" + ref + "'");
+                continue;
+            }
+            ref.applySerializrType(foundType);
+        }
+    }
 
+    @Override
+    public void typeFound(Type type) {
+        typeLookup.typeFound(type);
+    }
+
+    @Override
+    public void typeRefFound(TypeRef typeRef) {
+        typeLookup.typeRefFound(typeRef);
     }
 }

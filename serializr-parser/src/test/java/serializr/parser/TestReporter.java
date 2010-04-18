@@ -16,43 +16,29 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package serializr.ast;
+package serializr.parser;
 
-import org.antlr.runtime.Token;
-import serializr.typesystem.Type;
-import serializr.typesystem.TypeMatch;
-import serializr.typesystem.TypeRef;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
-/*
-*
-*/
-class PrimitiveTypeRefNode extends Node implements TypeRef {
+class TestReporter implements ErrorReporter {
 
-    private Type type;
-
-    public PrimitiveTypeRefNode(Token t) {
-        super(t);
-    }
-
-    public String getPrimitiveTypeName() {
-        return getChild(0).getText();
-    }
+    private int count = 0;
 
     @Override
-    public Type getSerializrType() {
-        if (type == null) {
-            throw new IllegalStateException();
-        }
-        return type;
+    public void reportError(String errorMsg) {
+        count++;
     }
 
-    @Override
-    public void applySerializrType(Type type) {
-        this.type = type;
+    public int getCount() {
+        return count;
     }
 
-    @Override
-    public TypeMatch getTypeMatch() {
-        return TypeMatch.createPrimitiveTypeMatch(getPrimitiveTypeName());
+    public void assertNoError() {
+        assertThat(getCount(), is(0));
+    }
+
+    public void assertError(int count) {
+        assertThat(getCount(), is(count));
     }
 }

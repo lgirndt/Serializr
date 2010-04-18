@@ -37,26 +37,12 @@ import static org.junit.Assert.assertThat;
 */
 public class TypeLookupTest {
 
-    private static class Reporter implements ErrorReporter {
-
-        private int count = 0;
-
-        @Override
-        public void reportError(String errorMsg) {
-            count++;
-        }
-
-        public int getCount() {
-            return count;
-        }
-    }
-
-    private Reporter errorReporter;
+    private TestReporter errorReporter;
     private TypeLookup lookup;
 
     @Before
     public void setUp() throws Exception {
-        errorReporter = new Reporter();
+        errorReporter = new TestReporter();
         lookup = new TypeLookup(errorReporter);
     }
 
@@ -66,7 +52,7 @@ public class TypeLookupTest {
         lookup.typeFound(new SimpleType("Foo", "bar"));
         List<Type> types = Lists.newArrayList(lookup.getTypes());
 
-        assertNoError();
+        errorReporter.assertNoError();
         assertThat(types.size(), is(1));
     }
 
@@ -76,7 +62,7 @@ public class TypeLookupTest {
         lookup.typeFound(new SimpleType("Foo", "bar"));
         lookup.typeFound(new SimpleType("Foo", "bar"));
 
-        assertError(1);
+        errorReporter.assertError(1);
     }
 
     @Test
@@ -84,7 +70,7 @@ public class TypeLookupTest {
         lookup.typeRefFound(new SimpleTypeRef("Foo"));
         lookup.typeRefFound(new SimpleTypeRef("Foo"));
         List<TypeRef> typeRefs = Lists.newArrayList(lookup.getTypeRefs());
-        assertNoError();
+        errorReporter.assertNoError();
         assertThat(typeRefs.size(), is(2));
     }
 
@@ -108,11 +94,4 @@ public class TypeLookupTest {
         assertThat(type, is(expectedType));
     }
 
-    private void assertNoError() {
-        assertThat(this.errorReporter.getCount(), is(0));
-    }
-
-    private void assertError(int count) {
-        assertThat(errorReporter.getCount(), is(count));
-    }
 }

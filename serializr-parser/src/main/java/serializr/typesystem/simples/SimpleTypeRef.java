@@ -31,6 +31,8 @@ public class SimpleTypeRef implements TypeRef {
     private final String typeName;
     private final SerializrPackage pkg;
 
+    private Type type;
+
     public SimpleTypeRef(String typeName) {
         this.typeName = typeName;
         this.pkg = null;
@@ -47,8 +49,15 @@ public class SimpleTypeRef implements TypeRef {
 
     @Override
     public Type getSerializrType() {
-        // TODO
-        return null;
+        if (type == null) {
+            throw new IllegalStateException();
+        }
+        return type;
+    }
+
+    @Override
+    public void applySerializrType(Type type) {
+        this.type = type;
     }
 
     @Override
