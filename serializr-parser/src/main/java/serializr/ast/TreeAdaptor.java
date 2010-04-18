@@ -62,6 +62,8 @@ public class TreeAdaptor extends BaseTreeAdaptor {
                 return newPrimitiveTypeRefNode(payload);
             case SerializrParser.COMPLEX_TYPE_REF:
                 return newComplexTypeRefNode(payload);
+            case SerializrParser.COLLECTION_TYPE_REF:
+                return newCollectionTypeRefNode(payload);
             case SerializrParser.QNAME:
                 return newQualifiedNameNode(payload);
             case SerializrParser.ROLE_REF:
@@ -73,6 +75,10 @@ public class TreeAdaptor extends BaseTreeAdaptor {
             default:
                 return newDefaultNode(payload);
         }
+    }
+
+    private Object newCollectionTypeRefNode(Token payload) {
+        return new CollectionTypeRefNode(payload);
     }
 
     private Object newDefaultNode(Token payload) {

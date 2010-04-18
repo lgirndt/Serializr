@@ -20,6 +20,7 @@ tokens
 	TYPES;
 	PRIMITIVE_TYPE_REF;
 	COMPLEX_TYPE_REF;
+	COLLECTION_TYPE_REF;
 	FIELD;
 	MODIFIER;
 	
@@ -180,7 +181,8 @@ primitiveIntegerNumberType
 	;	
 	
 collectionType
-	:	collectionTypeName '['! type ']'!;	
+	:	collectionTypeName '[' type ']' -> ^(COLLECTION_TYPE_REF type)
+	;	
 	
 collectionTypeName
 	:	'List'
