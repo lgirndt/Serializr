@@ -23,6 +23,7 @@ import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.TreeAdaptor;
+import serializr.ast.TypeParsingEventListener;
 import serializr.grammar.SerializrLexer;
 import serializr.grammar.SerializrParser;
 
@@ -33,6 +34,10 @@ import java.io.IOException;
 *
 */
 public class ParserFactory {
+
+
+    private TypeParsingEventListener typeParsingEventListener;
+
 
     public SerializrParser createParser(File file) throws IOException {
 
@@ -56,6 +61,15 @@ public class ParserFactory {
     }
 
     private TreeAdaptor createTreeAdaptor() {
-        return new serializr.ast.TreeAdaptor();
+        serializr.ast.TreeAdaptor treeAdaptor = new serializr.ast.TreeAdaptor();
+
+        if (typeParsingEventListener != null) {
+            treeAdaptor.addListener(typeParsingEventListener);
+        }
+        return treeAdaptor;
+    }
+
+    public void withTypeParsingEventListener(TypeParsingEventListener listener) {
+        this.typeParsingEventListener = listener;
     }
 }
