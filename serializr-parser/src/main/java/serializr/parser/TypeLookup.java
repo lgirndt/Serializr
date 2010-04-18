@@ -19,23 +19,24 @@
 package serializr.parser;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Maps;
 import serializr.ast.TypeParsingEventListener;
 import serializr.typesystem.SerializrPackage;
 import serializr.typesystem.Type;
+import serializr.typesystem.TypeMatch;
 import serializr.typesystem.TypeRef;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /*
-* Tracks types and typerefs.
+* Tracks typeMap and typerefs.
 */
 class TypeLookup implements TypeParsingEventListener {
 
     private final ErrorReporter errorReporter;
 
-    private final Set<Type> types = Sets.newTreeSet(new TypeComparator());
+    private final Map<TypeMatch, Type> typeMap = Maps.newHashMap();
 
     private List<TypeRef> typeRefs = Lists.newArrayList();
 
@@ -45,10 +46,12 @@ class TypeLookup implements TypeParsingEventListener {
 
     @Override
     public void typeFound(Type type) {
-        if (types.contains(type)) {
+        TypeMatch key = TypeMatch.toTypeMatch(type);
+
+        if (typeMap.containsKey(key)) {
             errorReporter.reportError("Type " + type.getName() + " already exists.");
         } else {
-            types.add(type);
+            typeMap.put(key, type);
         }
     }
 
@@ -58,7 +61,7 @@ class TypeLookup implements TypeParsingEventListener {
     }
 
     public Iterable<Type> getTypes() {
-        return types;
+        return typeMap.values();
     }
 
     public Iterable<TypeRef> getTypeRefs() {

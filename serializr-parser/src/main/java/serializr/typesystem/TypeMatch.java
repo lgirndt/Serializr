@@ -52,6 +52,10 @@ public class TypeMatch {
         return new TypeMatch(typeName, Builtins.BUILTIN_PKG);
     }
 
+    static public TypeMatch toTypeMatch(Type type) {
+        return new TypeMatch(type.getName(), type.getPackage());
+    }
+
     private TypeMatch(String typeName) {
         this.typeName = typeName;
         this.pkg = null;
@@ -79,13 +83,13 @@ public class TypeMatch {
     }
 
     public boolean matches(TypeMatch match) {
-        if (isInconcrete()) {
+        if (isLocal()) {
             return typeName.equals(match.typeName);
         }
         return this.equals(match);
     }
 
-    private boolean isInconcrete() {
+    private boolean isLocal() {
         return pkg == null;
     }
 
@@ -114,7 +118,7 @@ public class TypeMatch {
     @Override
     public String toString() {
         List<String> result = Lists.newArrayList();
-        if (!isInconcrete()) {
+        if (!isLocal()) {
             result.addAll(getPackageNames());
         }
         result.add(getTypeName());
