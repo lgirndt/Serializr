@@ -16,32 +16,29 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package serializr.ast;
+package serializr.parser;
 
-import org.antlr.runtime.Token;
-import serializr.typesystem.Role;
-import serializr.typesystem.SerializrPackage;
+import org.junit.Test;
+import serializr.ast.GrammarUtil;
+import serializr.typesystem.TranslationUnit;
+
+import static org.junit.Assert.assertNotNull;
 
 /*
 *
 */
-class RoleNode extends Node implements Role {
+public class ModelFactoryTest {
 
-    RoleNode(Token t) {
-        super(t);
-    }
-
-    @Override
-    public String getName() {
-        return getChild(0).getText();
-    }
-
-    @Override
-    public SerializrPackage getPackage() {
-        return getTranslationUnit().getPackage();
-    }
-
-    private TranslationUnitNode getTranslationUnit() {
-        return (TranslationUnitNode) getParent().getParent();
+    @Test
+    public void testCreateModel() throws Exception {
+        ModelFactory modelFactory = new ModelFactory();
+        TranslationUnit unit = modelFactory.createModel(GrammarUtil.toStr(
+                "package foo.bar;",
+                "role Role1;",
+                "role Role2;",
+                "seq MySeq is Role1(42) { aField : Role1, forWard : AnotherSeq };",
+                "seq AnotherSeq is Role2(23) { anInt : Int, aLong : Long };"
+        ));
+        assertNotNull(unit);
     }
 }

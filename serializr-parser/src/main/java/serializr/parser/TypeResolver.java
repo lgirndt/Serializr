@@ -50,6 +50,7 @@ class TypeResolver implements TypeParsingEventListener {
     }
 
     public void resolve(TranslationUnit unit) {
+        typeLookup.fillTypeMap();
         for (TypeRef ref : typeLookup.getTypeRefs()) {
             Type foundType = typeLookup.lookup(ref, unit.getPackage());
             if (foundType == null) {

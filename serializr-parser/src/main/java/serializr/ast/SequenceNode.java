@@ -43,7 +43,11 @@ class SequenceNode extends Node implements Sequence {
 
     @Override
     public SerializrPackage getPackage() {
-        throw new RuntimeException("IMPLEMENT ME");
+        return getTranslationUnitParent().getPackage();
+    }
+
+    private TranslationUnitNode getTranslationUnitParent() {
+        return (TranslationUnitNode) getParent().getParent();
     }
 
     @Override

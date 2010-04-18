@@ -36,6 +36,8 @@ class TypeLookup implements TypeParsingEventListener {
 
     private final ErrorReporter errorReporter;
 
+    private List<Type> collectedTypes = Lists.newArrayList();
+
     private final Map<TypeMatch, Type> typeMap = Maps.newHashMap();
 
     private List<TypeRef> typeRefs = Lists.newArrayList();
@@ -46,6 +48,16 @@ class TypeLookup implements TypeParsingEventListener {
 
     @Override
     public void foundType(Type type) {
+        collectedTypes.add(type);
+    }
+
+    public void fillTypeMap() {
+        for (Type type : collectedTypes) {
+            addType(type);
+        }
+    }
+
+    private void addType(Type type) {
         TypeMatch key = TypeMatch.toTypeMatch(type);
 
         if (typeMap.containsKey(key)) {
@@ -57,6 +69,10 @@ class TypeLookup implements TypeParsingEventListener {
 
     @Override
     public void foundTypeRef(TypeRef typeRef) {
+        addTypeRef(typeRef);
+    }
+
+    private void addTypeRef(TypeRef typeRef) {
         typeRefs.add(typeRef);
     }
 

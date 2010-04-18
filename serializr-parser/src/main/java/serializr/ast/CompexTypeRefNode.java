@@ -47,7 +47,7 @@ class CompexTypeRefNode extends Node implements TypeRef {
 
     @Override
     public TypeMatch getTypeMatch() {
-        QualifiedNameNode qname = (QualifiedNameNode) getChild(0);
+        QualifiedNameNode qname = getQualifiedNameNode();
 
         if (qname.hasFullName()) {
             return TypeMatch.createFullTypeMatch(qname.getName(), qname.getPackage());
@@ -56,4 +56,12 @@ class CompexTypeRefNode extends Node implements TypeRef {
         }
     }
 
+    private QualifiedNameNode getQualifiedNameNode() {
+        return (QualifiedNameNode) getChild(0);
+    }
+
+    @Override
+    public String toString() {
+        return getQualifiedNameNode().toString();
+    }
 }

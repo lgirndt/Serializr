@@ -48,4 +48,13 @@ class QualifiedNameNode extends Node {
     public boolean hasFullName() {
         return getChildCount() > 1;
     }
+
+    @Override
+    public String toString() {
+        if (hasFullName()) {
+            return getPackage() + "." + getName();
+        } else {
+            return getName();
+        }
+    }
 }

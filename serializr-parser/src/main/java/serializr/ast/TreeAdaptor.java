@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.BaseTreeAdaptor;
 import serializr.grammar.SerializrParser;
+import serializr.typesystem.Type;
 import serializr.typesystem.TypeRef;
 
 import java.util.List;
@@ -83,7 +84,9 @@ public class TreeAdaptor extends BaseTreeAdaptor {
     }
 
     private Object newRoleNode(Token payload) {
-        return new RoleNode(payload);
+        RoleNode roleNode = new RoleNode(payload);
+        fireFoundType(roleNode);
+        return roleNode;
     }
 
     private Object newRoleRefNode(Token payload) {
@@ -96,13 +99,13 @@ public class TreeAdaptor extends BaseTreeAdaptor {
 
     private Object newComplexTypeRefNode(Token payload) {
         CompexTypeRefNode node = new CompexTypeRefNode(payload);
-        fireTypeRefFound(node);
+        fireFoundTypeRef(node);
         return node;
     }
 
     private Object newPrimitiveTypeRefNode(Token payload) {
         PrimitiveTypeRefNode node = new PrimitiveTypeRefNode(payload);
-        fireTypeRefFound(node);
+        fireFoundTypeRef(node);
         return node;
     }
 
@@ -111,7 +114,9 @@ public class TreeAdaptor extends BaseTreeAdaptor {
     }
 
     private Object newSequenceNode(Token payload) {
-        return new SequenceNode(payload);
+        SequenceNode node = new SequenceNode(payload);
+        fireFoundType(node);
+        return node;
     }
 
     private Object newTranslationUnit(Token payload) {
@@ -147,10 +152,10 @@ public class TreeAdaptor extends BaseTreeAdaptor {
         return asNode(t).getParent();
     }
 
-
     public void setParent(Object t, Object parent) {
         asNode(t).setParent(asNode(parent));
     }
+
 
     public int getChildIndex(Object t) {
         return asNode(t).getChildIndex();
@@ -176,9 +181,15 @@ public class TreeAdaptor extends BaseTreeAdaptor {
         typeParsingListeners.remove(typeParsingEventListener);
     }
 
-    private void fireTypeRefFound(TypeRef typeRef) {
+    private void fireFoundTypeRef(TypeRef typeRef) {
         for (TypeParsingEventListener listener : typeParsingListeners) {
             listener.foundTypeRef(typeRef);
+        }
+    }
+
+    private void fireFoundType(Type type) {
+        for (TypeParsingEventListener listener : typeParsingListeners) {
+            listener.foundType(type);
         }
     }
 
